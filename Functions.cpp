@@ -19,13 +19,13 @@ void Dychotomia_class::setTolerance(double tol) {
     tolerance = tol;
 }
 
-// Реалізація функції f(x)
+
 double f(double x) {
     double tg = tan(x);
     return tg - (pow(tg, 3) + 1) / 3.0 + 0.2 * pow(tg, 5);
 }
 
-// Похідна функції f(x) для методу Ньютона
+
 double df(double x) {
     double tg = tan(x);
     double sec2 = 1 / (cos(x) * cos(x)); // sec^2(x)
