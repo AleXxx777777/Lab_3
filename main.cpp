@@ -5,18 +5,20 @@ using namespace std;
 
 int main() {
     system("chcp 65001 > nul");
-    Dychotomia_class * dyh = new Dychotomia_class();
 
-    dyh -> setlimits(0, 0.8);
-    dyh -> setTolerance(1e-6);
-
-
-    double root_dichotomy = dyh -> dichotomymethod();
+    Dychotomia_class* dyh = new Dychotomia_class();
+    dyh->setlimits(0.1, 0.5); // Безпечний інтервал без розривів
+    dyh->setTolerance(1e-6);
+    double root_dichotomy = dyh->dichotomymethod();
     cout << "Корінь з методом Дихотомії: " << root_dichotomy << endl;
+    delete dyh;
 
-
-    double root_newton = dyh-> newtonmethod();
-    cout << "корінь з методом Ньютона: " << root_newton << endl;
+    Newton_class* newton = new Newton_class();
+    newton->setx0(0.3); // Початкова точка в тому самому діапазоні
+    newton->setTolerance(1e-6);
+    double root_newton = newton->newtonmethod();
+    cout << "Корінь з методом Ньютона: " << root_newton << endl;
+    delete newton;
 
     return 0;
 }

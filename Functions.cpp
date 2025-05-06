@@ -1,37 +1,33 @@
 #include "Functions.h"
-#include "iostream"
 #include <cmath>
+#include <iostream>
 
-Dychotomia_class::Dychotomia_class()  {
-    left_limit = 0;
-    right_limit = 0.8;
-    tolerance = 1e-6;
+double fx(double x) {
+    double t = tan(x);
+    return t - (pow(t, 3) + 1) / 3.0 + 0.2 * pow(t, 5);
 }
 
-Dychotomia_class::~Dychotomia_class()  {}
+double fdx(double x) {
+    double t = tan(x);
+    double sec2 = 1.0 / (cos(x) * cos(x)); // sec^2(x)
+    double df = (1 - t * t); // derivative of tan(x) = sec^2(x)
 
-void Dychotomia_class::setlimits (double left, double right) {
+    // Derivative using chain rule:
+    return (1 - t * t)
+           - (1.0 / 3.0) * (3 * pow(t, 2) * sec2)
+           + 0.2 * 5 * pow(t, 4) * sec2;
+}
+
+Dychotomia_class::Dychotomia_class() {}
+Dychotomia_class::~Dychotomia_class() {}
+
+void Dychotomia_class::setlimits(double left, double right) {
     left_limit = left;
     right_limit = right;
 }
 
 void Dychotomia_class::setTolerance(double tol) {
     tolerance = tol;
-}
-
-
-double f(double x) {
-    double tg = tan(x);
-    return tg - (pow(tg, 3) + 1) / 3.0 + 0.2 * pow(tg, 5);
-}
-
-
-double df(double x) {
-    double tg = tan(x);
-    double sec2 = 1 / (cos(x) * cos(x)); // sec^2(x)
-    double tg2 = tg * tg;
-    double tg4 = tg2 * tg2;
-    return sec2 * (1 - tg2 + 0.2 * 5 * tg4 + 3 * tg2 * 0.2 * tg4);
 }
 
 double Dychotomia_class::dichotomymethod() {
@@ -41,7 +37,7 @@ double Dychotomia_class::dichotomymethod() {
 
     while (fabs(b - a) > tolerance) {
         x = (a + b) / 2;
-        if (f(x) > 0)
+        if (fx(x) * fx(a) < 0)
             b = x;
         else
             a = x;
@@ -50,24 +46,34 @@ double Dychotomia_class::dichotomymethod() {
     return (a + b) / 2;
 }
 
-double Dychotomia_class::newtonmethod() {
-    double x0 = (left_limit + right_limit) / 2.0;
+Newton_class::Newton_class() {}
+Newton_class::~Newton_class() {}
+
+void Newton_class::setx0(double x) {
+    x0 = x;
+}
+
+void Newton_class::setTolerance(double tol) {
+    tolerance = tol;
+}
+
+double Newton_class::newtonmethod() {
     double x = x0;
+    double x_next;
 
     while (true) {
-        double fx = f(x);
-        double dfx = df(x);
+        double f = fx(x);
+        double df = fdx(x);
 
-        if (fabs(dfx) < 1e-10) {
-            std::cerr << "Derivative too small!" << std::endl;
-            return x;
-        }
+        if (df == 0) break; // запобігання діленню на 0
 
-        double x_next = x - fx / dfx;
+        x_next = x - f / df;
 
         if (fabs(x_next - x) < tolerance)
-            return x_next;
+            break;
 
         x = x_next;
     }
+
+    return x_next;
 }

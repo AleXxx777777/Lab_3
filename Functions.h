@@ -1,9 +1,5 @@
-//
-// Created by Acer Aspire on 29.04.2025.
-//
-
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+#ifndef FUNC_H
+#define FUNC_H
 
 class Dychotomia_class {
 private:
@@ -15,12 +11,26 @@ public:
   Dychotomia_class();
   ~Dychotomia_class();
 
-
   void setlimits(double left, double right);
   void setTolerance(double tol);
-
   double dichotomymethod();
+};
+
+class Newton_class {
+private:
+  double x0;
+  double tolerance;
+
+public:
+  Newton_class();
+  ~Newton_class();
+
+  void setx0(double x);
+  void setTolerance(double tol);
   double newtonmethod();
 };
 
-#endif //FUNCTIONS_H
+double fx(double x);
+double fdx(double x);
+
+#endif // FUNC_H
