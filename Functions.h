@@ -7,6 +7,8 @@ private:
   double right_limit;
   double tolerance;
 
+  static double fx(double x);
+
 public:
   Dychotomia_class();
   ~Dychotomia_class();
@@ -21,6 +23,9 @@ private:
   double x0;
   double tolerance;
 
+  static double fx(double x);
+  static double fdx(double x);
+
 public:
   Newton_class();
   ~Newton_class();
@@ -29,8 +34,5 @@ public:
   void setTolerance(double tol);
   double newtonmethod();
 };
-
-double fx(double x);
-double fdx(double x);
 
 #endif // FUNC_H
