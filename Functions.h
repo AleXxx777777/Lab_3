@@ -17,14 +17,12 @@ public:
   void setTolerance(double tol);
   double dichotomymethod();
 };
-
 class Newton_class {
 private:
   double x0;
   double tolerance;
-
-  static double fx(double x);
-  static double fdx(double x);
+  double left_limit;  // Додаємо ліву межу
+  double right_limit; // Додаємо праву межу
 
 public:
   Newton_class();
@@ -32,7 +30,9 @@ public:
 
   void setx0(double x);
   void setTolerance(double tol);
+  void setLimits(double left, double right); // Новий метод для встановлення меж
+  double fx(double x);
+  double fdx(double x);
   double newtonmethod();
 };
-
 #endif // FUNC_H
